@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <random>
+#include <chrono>
 
 
 long long MaxPairwiseProductNaive(const std::vector<int>& numbers){ //only read by reference
@@ -18,9 +19,11 @@ long long MaxPairwiseProductNaive(const std::vector<int>& numbers){ //only read 
         {
             long long product = 1LL * numbers[index] * numbers[secondIndexComparing];//1LL to avoid int overflow
             if(maxProduct < product && (index != secondIndexComparing))
+            {
                 maxProduct = product;
-                //Debugging Only //std::cout << " In MaxPairwiseProductNaive => "<<numbers[index] << " * " << numbers[secondIndexComparing] << " = " << maxProduct << "\n";
-            
+                //std::cout << " In MaxPairwiseProductNaive => "<<numbers[index] << " * " << numbers[secondIndexComparing] << " = " << maxProduct << "\n";
+            }
+                
             secondIndexComparing++;
         }
         index++;
@@ -30,60 +33,32 @@ long long MaxPairwiseProductNaive(const std::vector<int>& numbers){ //only read 
 
 long long MaxPairwiseProductFast(const std::vector<int>& numbers){
 
-    size_t  index = 0;
-    int maxNbr = 1;
-    int maxSecondNbr = 1;
+    size_t  index_1 = 0;
+    size_t  index_2 = 0;
+    int maxNbrIndex = 0;
+    int maxSecondNbrIndex = 0;
      
-    while(index < numbers.size())
+    while(index_1 < numbers.size())
     {   
-        if(maxNbr < numbers[index])
-            maxNbr = numbers[index];
-        index++;
+        if(numbers[index_1] > numbers[maxNbrIndex])
+            maxNbrIndex = index_1;
+
+        index_1++;
     }
 
-    index = 0;
-    while(index < numbers.size())
+    if(maxNbrIndex == 0)
+        maxSecondNbrIndex = 1;
+
+    while(index_2 < numbers.size())
     {
-        if(maxNbr != numbers[index] && maxSecondNbr < numbers[index])
-            maxSecondNbr = numbers[index];
-        index++;
+        if(index_2 != maxNbrIndex && numbers[index_2] > numbers[maxSecondNbrIndex])
+            maxSecondNbrIndex = index_2;
+
+        index_2++;
     }
-    //Debugging Only //std::cout << " In MaxPairwiseProductFast => " << maxNbr << " * " << maxSecondNbr << " = " << 1LL * maxNbr * maxSecondNbr << "\n";
 
-    return 1LL * maxNbr * maxSecondNbr;
-}
-
-void StressTest(){
-    while(true)
-    {
-        std::srand(std::time(nullptr)); //implement random on second
-        std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count()); // implement on nanoseconds perfect for looping sample rng
-
-        int randomNumber;
-        randomNumber =  std::rand() % 10 + 2;
-        std::cout << randomNumber << "\n";
-
-        int rangeTo = 0;
-        std::vector<int> ArrayOfInteger;
-
-        while(rangeTo++ < randomNumber) { //Fill array with Integer
-            int random = rng() % 100000; // 10ˆ5 number
-            ArrayOfInteger.push_back(random);
-        }
-
-        for (int eachNumberIn : ArrayOfInteger) { //Print numbers in Array to be tested
-            std::cout << eachNumberIn << " ";
-        }
-        std::cout << "\n";
-
-        long long result1 = MaxPairwiseProductNaive(ArrayOfInteger);
-        long long result2 = MaxPairwiseProductFast(ArrayOfInteger);
-
-        if(result1 == result2)
-            std::cout << "Ok\n";
-        else
-            std::cout << "Wrong answer " << result1 << " != " << result2 << "\n";
-    }
+    //std::cout << " In MaxPairwiseProductFast => " << numbers[maxNbrIndex] << " * " << numbers[maxSecondNbrIndex] << " = " << 1LL * numbers[maxNbrIndex] * numbers[maxSecondNbrIndex] << "\n";
+    return 1LL * numbers[maxNbrIndex] * numbers[maxSecondNbrIndex];
 }
 
 int main(){
@@ -97,11 +72,9 @@ int main(){
        std::cin >> numbers[index];
        index++;
     }
-
-    std::cout << MaxPairwiseProductNaive(numbers); //Fisrt work submit
-    //std::cout << MaxPairwiseProductFast(numbers); 
     
-    //Only for Testing  //StressTest();
-    
+    //std::cout << MaxPairwiseProductNaive(numbers); //Fisrt work submit
+    std::cout << MaxPairwiseProductFast(numbers); 
+        
     return 0;
 }
