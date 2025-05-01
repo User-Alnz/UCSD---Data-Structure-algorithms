@@ -19,7 +19,9 @@ int FibonnaciRecursive(int n)
 
 int main()
 {
-    int Fib_n = 40; // The fourth number in a row within Fibonacci next
+    int Fib_n; // The fourth number in a row within Fibonacci next
+
+    std::cin >> Fib_n;
 
     std::cout << "For F(n) : " << Fib_n << "\n";;
     auto start = std::chrono::high_resolution_clock::now();

@@ -2,18 +2,21 @@
 #include <vector>
 #include <chrono>
 
-long long FibonnaciList(int n)
+long long FibonnacciList(int n)
 {
     int index = 2;
-    std::vector<long long> fib = { 0, 1 };
-    
+    std::vector<long long> fib = { 1, 1 };
+
+    if( n == 0 )
+        return 0;
+        
     while(index < n)
     {
         fib.push_back(fib[index - 1] + fib[index -2]);
         index++;
     }
 
-    int loopTo = 0;  
+    int loopTo = 0;
     while(loopTo < fib.size()){
        std::cout << " The " << loopTo+1 << " is the number " << fib[loopTo] << " of Fibonnaci List" << "\n";
        loopTo++;
@@ -31,7 +34,7 @@ int main()
 
     auto start = std::chrono::high_resolution_clock::now(); //Start catching exec time 
 
-    long long result = FibonnaciList(Fib_n);
+    long long result = FibonnacciList(Fib_n);
 
     std::cout << "Fib result is :" << result << "\n";
 
