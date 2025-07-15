@@ -56,7 +56,7 @@ int FastLastFibNumber(long long n)
 
 int main()
 {
-    int Fib_n;
+    long long Fib_n;
     std::cin >> Fib_n;
 
     int result = FastLastFibNumber(Fib_n);
