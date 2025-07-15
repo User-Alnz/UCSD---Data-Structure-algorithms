@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include <vector>
 
 void print(std::vector<long long> fib)
@@ -31,10 +32,13 @@ int FibSum(std::vector<long long> fib)
     return sum;
 }
 
-int lastDigitOfFibSum(int Fib_nb)
+int NaivelastDigitOfFibSum(int Fib_nb)
 {
-    int result;
+    int sum=1;
     int index=2;
+
+    if(Fib_nb == 0)
+    return 0;
     
     Fib_nb+=1; // start 0 does not account as first number
     std::vector<long long> fib ={0, 1};
@@ -42,12 +46,13 @@ int lastDigitOfFibSum(int Fib_nb)
     while(index < Fib_nb)
     {
         fib.push_back((fib[index-1]+fib[index-2])%10);
+        sum+=fib[index];
+        sum = sum%10;
         index++;
     } 
 
-    //print(fib);
-    result = FibSum(fib);
-    return result;
+    print(fib);
+    return sum;
 }
 
 int main()
@@ -59,7 +64,7 @@ int main()
 
     auto start = std::chrono::high_resolution_clock::now(); //Start catching exec time 
 
-    int result = lastDigitOfFibSum(Fib_n);
+    int result = NaivelastDigitOfFibSum(Fib_n);
     std::cout << "\nresult is : "<< result;
 
     auto stop = std::chrono::high_resolution_clock::now(); //Stop catching exec time 
