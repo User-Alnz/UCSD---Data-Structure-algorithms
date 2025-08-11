@@ -9,7 +9,7 @@
 
 void runTest(
     int testIndex, 
-    int expectedResult, 
+    long long expectedResult, 
     const std::vector<int> & price, 
     const std::vector<int> & clicks
 )
@@ -17,7 +17,7 @@ void runTest(
     using namespace std::chrono;
 
     auto start = high_resolution_clock::now();
-        int result = maxAdRevenue(price, clicks);
+        long long result = maxAdRevenue(price, clicks);
     auto stop = high_resolution_clock::now();
 
 
@@ -40,6 +40,9 @@ int main()
     runTest(2, 79, {2, 3, 9}, {7, 4, 2});
 
     runTest(3 , 478 , {20, 1, 6, 2, 30}, {10, 7, 1, 0, 6});
+    
+    //test data type overflow 
+    runTest( 4 , 20000000000, { 100000, 100000}, { 100000, 100000});
     
     return 0;
 }

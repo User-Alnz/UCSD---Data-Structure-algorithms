@@ -1,7 +1,19 @@
 #include <vector>
 #include <iostream>
 
-int maxAdRevenue(const std::vector<int> & price, const std::vector<int> & clicks)
+/*
+    The solution below is O(n²). 
+    It does loop through all values until it works out the total sum of product of greatest price * greatest clicks. 
+
+    A faster solution would be to sort by O(n log n) price & clicks in DESC order.
+    So that we just need to go O(n) by multiplying each upcoming index of Price * Clicks.
+    
+    Why not doing this here ? Simply because topic is comming later in course 
+    + it would be cheating to use ::sort() method from vector. Because goal is to learn datastructure and its manipulation using logic. 
+
+*/
+
+long long maxAdRevenue(const std::vector<int> & price, const std::vector<int> & clicks)
 {
     bool areAllValuesParsed = false;
     std::vector <int> treatedPrice(price.size(), 0);
@@ -15,7 +27,7 @@ int maxAdRevenue(const std::vector<int> & price, const std::vector<int> & clicks
     int memoizedMaxPriceIndex = 0;
     int memoizedMaxClickIndex = 0;
 
-    int maxAdRevenue = 0;
+    long long maxAdRevenue = 0;
 
     while(areAllValuesParsed != true)
     {
@@ -67,7 +79,7 @@ int main()
     price and clicks are always same size length of arguments 
     */
 
-    int result;
+    long long result;
 
     int slotsAvailable; // i 
     std::vector <int> price;

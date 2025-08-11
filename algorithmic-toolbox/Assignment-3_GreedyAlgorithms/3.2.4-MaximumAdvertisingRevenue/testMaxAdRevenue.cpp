@@ -2,7 +2,7 @@
 #include <iostream>
 #include "MaxAdRevenue.h"
 
-int maxAdRevenue(const std::vector<int> & price, const std::vector<int> & clicks)
+long long maxAdRevenue(const std::vector<int> & price, const std::vector<int> & clicks)
 {
     bool areAllValuesParsed = false;
     std::vector <int> treatedPrice(price.size(), 0);
@@ -16,12 +16,12 @@ int maxAdRevenue(const std::vector<int> & price, const std::vector<int> & clicks
     int memoizedMaxPriceIndex = 0;
     int memoizedMaxClickIndex = 0;
 
-    int maxAdRevenue = 0;
+    long long maxAdRevenue = 0;
 
     while(areAllValuesParsed != true)
     {
 
-        maxAdRevenue += maxClick * maxPrice;
+        maxAdRevenue += static_cast<long long>(maxClick) * maxPrice;
 
         index = 0;
         maxPrice = 0;

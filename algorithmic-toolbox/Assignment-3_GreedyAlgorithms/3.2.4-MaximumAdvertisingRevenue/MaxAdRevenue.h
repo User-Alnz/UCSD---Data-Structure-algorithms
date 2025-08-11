@@ -3,7 +3,7 @@
 
 #include <vector>
 
-int maxAdRevenue(
+long long maxAdRevenue(
     const std::vector<int> & price,
     const std::vector<int> & clicks
 );
