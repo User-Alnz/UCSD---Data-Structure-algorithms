@@ -2,8 +2,16 @@
 #include <iostream>
 
 /*
-    This solution is O(n²) in worst case. Though by memoizing index we remove at least n-1 in worst case. 
-    So running time is somewhere between O(n²) and O(n)
+    This solution is O(n) in worst case. 
+    Because O(n) is called on each "stop" to refill in first while loop. thus each time we move to next stop we go O(n)
+
+    So it's like O(n) = O(n) + O(n) ... 
+
+    Moreover by memoizing index we remove at least n-1 in worst case. 
+    So it's at least O(n)= O(n-1) + O(n-1) ... 
+
+    So it's time complexity is O(n). Though if each stop is each time at n+1 while iterating in stops list the worst case remain < O(n²), 
+    because we would keep looping from next n+1 index. 
 */
 int minimumNumberOfRefill(int distance, int gazTankMaxCapacity, int nbrOfStops, const std::vector <int>& stopsOnRoad)
 {
