@@ -39,10 +39,10 @@ class OutputArray {
         static void print2DVector(const std::vector<std::vector<int>>& vectors)
         {
             std::cout << "[";
-            for (const auto& v : vectors) 
+            for (const auto& row : vectors) 
             {
                 std::cout << "{ ";
-                for (auto x : v) std::cout << x << " ";
+                for (auto valueInColumn : row ) std::cout << valueInColumn << " ";
                 std::cout << "} ";
             }
             std::cout << "]";
