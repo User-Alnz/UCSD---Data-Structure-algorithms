@@ -79,10 +79,12 @@ int main()
     runTest(2, {{5, 6}}, { {2 , 6}, { 5, 8 }, { 5, 10 }, {4, 10}});
 
     //TEST unordered list of segment. 3 group of segment sharing 3 possible k point = {4, 5} or {1, 2} or {6}
-    runTest(3, {{4}, {1, 2}, {6}},  {{4, 5}, {1, 2}, {3, 4}, {5, 6}, {6, 7}});
+    runTest(3, {{1, 2}, {4}, {6}},  {{4, 5}, {1, 2}, {3, 4}, {5, 6}, {6, 7}});
 
     // test 3 not passed ! must sort array ASC or DESC and attribute k as first or second depending ASC or DESC sorting order !! 
     //NOT PASSED => [ 5  1  6 ] & expected is among expected result : [{ 4 } { 1 2 } { 6 } ]⏎   
+
+    runTest(4, {{3}, {6}}, {{4,7},{1,3},{2,5},{5,6}});
 
     /*
         Best option is thus sorting segment O(n log n) by using quick sort or merge Sort. 
