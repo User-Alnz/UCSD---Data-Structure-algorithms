@@ -2,49 +2,15 @@
 #include <vector>
 #include <algorithm>
 
-    /*
-        Solution is O(n²)
-        Altough small optimization with 
-
-        Assignement :
-        
-        Constraints:
-
-        1 ≤ n ≤ 100; 
-        0 ≤ li ≤ ri ≤ 10^9 for all i. segement like {2, 3} or {li, ri}
-    */
-void printVectorPair(const std::vector <std::pair<int, int>> & vector)
-{
-    int idx = 0;
-    std::cout << "[";
-
-    for(const auto& index : vector) 
-    {
-        std::cout << " { " << index.first << " , " << index.second << " } ";
-        idx++;
-    }
-
-    std::cout << "]";
-}
-
 void printVector(const std::vector<int> &vector)
 {
     int idx = 0;
-    
+
     while(idx < vector.size())
     {
-        std::cout << " " << vector[idx] << " ";
+        std::cout << vector[idx] << " ";
         idx++;
     }
-
-}
-
-int max(int &a, int &b)
-{
-    if(a > b)
-    return a;
-    else
-    return b;
 }
 
 int min(int &a, int &b)
@@ -55,6 +21,7 @@ int min(int &a, int &b)
     return b;
 }
 
+//Solution is O(n²)
 std::vector <int> minimumKSegment(std::vector <std::pair<int, int>> & segmentList)
 {
     std::vector <int> listOfMinimumK;
@@ -63,40 +30,38 @@ std::vector <int> minimumKSegment(std::vector <std::pair<int, int>> & segmentLis
 
     //Sort O(n log n)
     std::sort(segmentList.begin(), segmentList.end());
-    printVectorPair(segmentList);
+    
 
     int k = 0;
     int index = 0;
-    int lag = 0;
+    int flag = 0;
     int memoizedIndex = 0;
 
+    //Find out min k O(n²).
     while(true)
     {
         index = memoizedIndex;
         k = 0;
         flag = 0;
 
-        scanSegment.first = segmentList[index].first;
         scanSegment.second = segmentList[index].second;
+        k = scanSegment.second;
 
         while(index < segmentList.size())
         {   
-
+            /*
+                in ASC ordered list min k is necessay the min ri (rigth or second index) for 
+                all segments [li, ri] then li < min(ri) or k. And if k is necessary lowest ri in Segmentlist n or [li, ri]   
+            */
             
-            if(segmentList[index].second >= scanSegment.first && segmentList[index].first <= scanSegment.second)
+            if(segmentList[index].first <= k)
             {
-                k = min(scanSegment.second, segmentList[index].second); //in ordered ASC safer choice is the upmost min Seg ri
-
-                treatedSegment[index] = 1;   
+                k = min(k, segmentList[index].second);
+                treatedSegment[index] = 1;
             }
 
-            std::cout << "scanning current seg = [ "<< scanSegment.first << " " << scanSegment.second << " ];  ";
-            std::cout << "compare to " << "[ " << segmentList[index].first << " " << segmentList[index].second << " ];\nfor k ==";
-            std::cout << k << "\n";   
-                   
             index++;
         }
-
 
         listOfMinimumK.push_back(k);
         
@@ -112,10 +77,7 @@ std::vector <int> minimumKSegment(std::vector <std::pair<int, int>> & segmentLis
 
             index++;
         }
-
-        printVector(treatedSegment);
-        std::cout<<"\n";
-
+        
         if(flag == 0)
         break;
         
@@ -127,7 +89,6 @@ std::vector <int> minimumKSegment(std::vector <std::pair<int, int>> & segmentLis
 
 int main()
 {
-    
     int nbrOfSegment;
     std::vector <std::pair<int, int>> segmentList;
 
@@ -143,10 +104,9 @@ int main()
     }
 
     int minimumK = 0;
-    std::vector<int> result = minimumKSegment(testList);
+    std::vector<int> result = minimumKSegment(segmentList);
 
     minimumK = result.size();
     std::cout << minimumK << " \n";
-    printVector(result);
-        
+    printVector(result);       
 }
