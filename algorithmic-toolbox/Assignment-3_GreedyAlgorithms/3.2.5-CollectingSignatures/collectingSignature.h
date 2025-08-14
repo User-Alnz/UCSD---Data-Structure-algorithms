@@ -4,7 +4,7 @@
 #include <vector>
 
 std::vector <int> minimumKSegment(
-  const std::vector <std::pair<int, int>> & segmentList
+  std::vector <std::pair<int, int>> & segmentList
 );
 
 #endif

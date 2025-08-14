@@ -4,46 +4,47 @@
 #include "collectingSignature.h"
 
 
+int min(int &a, int &b)
+{
+    if(a < b)
+    return a;
+    else
+    return b;
+}
 
-std::vector <int> minimumKSegment(const std::vector <std::pair<int, int>> & segmentListOriginal)
+std::vector <int> minimumKSegment(std::vector <std::pair<int, int>> & segmentList)
 {
     std::vector <int> listOfMinimumK;
-    std::vector <int> treatedSegment(segmentListOriginal.size(), 0);
+    std::vector <int> treatedSegment(segmentList.size(), 0);
     std::pair <int, int> scanSegment;
 
-    std::vector<std::pair<int,int>>  segmentList = segmentListOriginal; //make a copy
+    //Sort O(n log n)
     std::sort(segmentList.begin(), segmentList.end());
     
-    int  flag = 0;
+
     int k = 0;
     int index = 0;
+    int flag = 0;
     int memoizedIndex = 0;
-    
+
     while(true)
     {
-        index = flag;
+        index = memoizedIndex;
         k = 0;
         flag = 0;
 
-        scanSegment.first = segmentList[index].first;
         scanSegment.second = segmentList[index].second;
+        k = scanSegment.second;
 
         while(index < segmentList.size())
         {   
             
-            if((scanSegment.first >= segmentList[index].first && scanSegment.first <= segmentList[index].second) || 
-                (scanSegment.second <= segmentList[index].second && scanSegment.second >= segmentList[index].first))
+            if(segmentList[index].first <= k)
             {
-                if(scanSegment.first >= segmentList[index].first)
-                    k = scanSegment.first;
-
-                if(scanSegment.second <= segmentList[index].second)
-                    k = scanSegment.second;
-
-
+                k = min(k, segmentList[index].second);
                 treatedSegment[index] = 1;
             }
-                             
+
             index++;
         }
 
