@@ -1,13 +1,30 @@
 #include <vector>
 #include <iostream>
 
+/*
+    Start of helper function ! 
+
+    printVector() =>  print result of best arrangement to find out maxSalary or Greatest concatanation of numb
+
+    workOutGreaterDESCArrangment() => is comp function to find out greatest numb combination of 2 numb
+
+        this is based on simple comparision of digits in number going recursively from log10(n); or digitLength(nbr).
+        best arrangement of number is simple. it depends of digit making up numb. 
+
+        like a = 26 and b = 65. "6526" is necessarly > than "2665" because first a digit 2 > b digit 6. And so on.
+        
+        this can be figure out using digitFromNumber()
+
+    subfunction of workOutGreaterDESCArrangment()  => digitLength(nbr) & digitFromNumber(int numb, int position)
+
+*/
 
 void printVector(const std::vector<int> &vector)
 {
     int idx = 0;
     while(idx < vector.size())
     {
-        std::cout << vector[idx] << " ";
+        std::cout << vector[idx];
         idx++;
     }
 }
@@ -51,7 +68,7 @@ int digitFromNumber(int numb, int position)
     return (numb/(powerOf10(position)))%10;
 }
 
-
+// This Can be simplified by lexicographic comp by ASCII. read "OptimizedMaxSalary.cpp" in same folder
 int workOutGreaterDESCArrangment(int &a, int &b)
 {
     
@@ -74,7 +91,7 @@ int workOutGreaterDESCArrangment(int &a, int &b)
     int smallestLength; 
 
     if(a == b)
-    return a;//return (a *powerOf10(bLength)) + b;
+    return a;
 
     if(aLength == 1 && bLength == 1)
     {
@@ -90,9 +107,6 @@ int workOutGreaterDESCArrangment(int &a, int &b)
             aDigit = digitFromNumber(a, aPosition);
             bDigit = digitFromNumber(b, bPosition);
 
-            //std::cout << "Length of a is  : " << aLength <<  "Length of b is : " << bLength << "\n";
-            //std::cout << aDigit << "\n";
-            //std::cout << bDigit << "\n";
 
             if(aDigit == bDigit)
             {
@@ -100,16 +114,22 @@ int workOutGreaterDESCArrangment(int &a, int &b)
                bPosition --;
             }
             else if (aDigit > bDigit)
-            return a; //return (a *powerOf10(bLength)) + b;//return a;
+            return a; 
             else if(bDigit > aDigit)
-            return b; // (b *powerOf10(aLength)) + a;//return b;
+            return b; 
 
         }
     }
 
-    return a; //return (a *powerOf10(bLength)) + b; //by default
+    return a;
 }
 
+/*
+    Solution is O(n² * c).  c is comparaison of numb in nested loop. As number is max 10^3, c is c*3 worst case. 
+
+    it can be simplified by using Merge sorting or quickSorting which are O(n log n)
+    based based on comp O(n)  workOutGreaterDESCArrangment(int &a, int &b);
+*/
 std::vector <int> maxSalary(std::vector <int> &digitList)
 {   
 
@@ -136,27 +156,22 @@ std::vector <int> maxSalary(std::vector <int> &digitList)
             if (treatedIndex[index] ==1) 
             {
                 index++;
-                continue; //get back to top until value not treated and comp
+                continue;
             }
-
+            
             bestASCNumb = workOutGreaterDESCArrangment(bestASCNumb, digitList[index]);
             
-            if(bestASCNumb != refNumber)
+            if(bestASCNumb != refNumber && treatedIndex[index] != 1)
             {
                 refNumber = bestASCNumb;
                 memoizedIndex = index;
             }
-
-            //std::cout << "\n refNumber in loop is  => " << refNumber << "  & bestASCNumb is equal to "<<  bestASCNumb << "\n"; 
 
             index++;
         }
 
         treatedIndex[memoizedIndex] = 1;
         digitOrdered.push_back(digitList[memoizedIndex]);
-
-        //printVector(treatedIndex); std::cout << "\n";
-        //std::cout <<  " bestASCNumb  is =  " << refNumber << " and its index is " << memoizedIndex << "\n";
     }
 
     return digitOrdered; 
@@ -177,6 +192,7 @@ int main()
     }
 
     std::vector <int> ListOrderd = maxSalary(digitList);
+
     printVector(ListOrderd);
 
     return 0;
